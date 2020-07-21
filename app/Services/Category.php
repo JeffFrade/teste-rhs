@@ -21,12 +21,7 @@ class Category
 
     public function create(string $category)
     {
-        $category = StringHelper::removeAccents($category);
-        $categoryInDb = $this->categoryRepository->findFirst('category', $category);
-
-        if (!empty($categoryInDb)) {
-            throw new \Exception('Category Existent');
-        }
+        $this->validateCreateCategory($category);
 
         $data = [
             'category' => $category
@@ -38,12 +33,26 @@ class Category
 
     public function delete(int $id)
     {
+        $this->validateDeleteCategory($id);
+        $this->categoryRepository->delete($id);
+    }
+
+    private function validateCreateCategory(string $category)
+    {
+        $category = StringHelper::removeAccents($category);
+        $categoryInDb = $this->categoryRepository->findFirst('category', $category);
+
+        if (!empty($categoryInDb)) {
+            throw new \Exception('Category Existent');
+        }
+    }
+
+    private function validateDeleteCategory(int $id)
+    {
         $category = $this->categoryRepository->findFirst('id', $id);
 
         if (empty($category)) {
             throw new \Exception('Category Nonexistent');
         }
-
-        $this->categoryRepository->delete($id);
     }
 }
