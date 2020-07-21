@@ -54,6 +54,12 @@ abstract class AbstractRepository
         return $instance->save();
     }
 
+    public function deleteCustom($field, $value)
+    {
+        return $this->model->where($field, $value)
+            ->delete();
+    }
+
     public function delete($id)
     {
         return $this->model->destroy($id);

@@ -36,6 +36,13 @@ class Movie
         return $movie->toArray();
     }
 
+    public function delete(int $id)
+    {
+        $this->validateDeleteCategory($id);
+        $this->movieCategoryRepository->deleteCustom('id_movie', $id);
+        $this->movieRepository->delete($id);
+    }
+
     private function validateCreateMovie(string $title)
     {
         $movieInDb = $this->movieRepository->findFirst('title', $title);
@@ -64,6 +71,15 @@ class Movie
 
         if (empty($category)) {
             throw new \Exception('Category Nonexistent');
+        }
+    }
+
+    private function validateDeleteCategory(int $id)
+    {
+        $movie = $this->movieRepository->findFirst('id', $id);
+
+        if (empty($movie)) {
+            throw new \Exception('Movie Nonexistent');
         }
     }
 }
