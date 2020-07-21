@@ -11,4 +11,11 @@ class MovieRepository extends AbstractRepository
     {
         $this->model = new Movie();
     }
+
+    public function getMovieWithCategories(int $id)
+    {
+        return $this->model->with('categories')
+            ->where('id', $id)
+            ->first();
+    }
 }

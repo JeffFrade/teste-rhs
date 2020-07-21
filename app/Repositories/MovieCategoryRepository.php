@@ -11,4 +11,10 @@ class MovieCategoryRepository extends AbstractRepository
     {
         $this->model = new MovieCategory();
     }
+
+    public function getMoviesByCategory(int $idCategory)
+    {
+        return $this->model->where('id_category', $idCategory)
+            ->get();
+    }
 }

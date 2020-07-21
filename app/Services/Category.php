@@ -4,14 +4,20 @@ namespace App\Services;
 
 use App\Helpers\StringHelper;
 use App\Repositories\CategoryRepository;
+use App\Repositories\MovieCategoryRepository;
+use App\Repositories\MovieRepository;
 
 class Category
 {
     private $categoryRepository;
+    private $movieRepository;
+    private $movieCategoryRepository;
 
     public function __construct()
     {
         $this->categoryRepository = new CategoryRepository();
+        $this->movieRepository = new MovieRepository();
+        $this->movieCategoryRepository = new MovieCategoryRepository();
     }
 
     public function search(string $category = '')
@@ -34,6 +40,9 @@ class Category
     public function delete(int $id)
     {
         $this->validateDeleteCategory($id);
+        $this->verifyToDelete($id);
+
+        $this->movieCategoryRepository->deleteCustom('id_category', $id);
         $this->categoryRepository->delete($id);
     }
 
@@ -53,6 +62,19 @@ class Category
 
         if (empty($category)) {
             throw new \Exception('Category Nonexistent');
+        }
+    }
+
+    private function verifyToDelete(int $id)
+    {
+        $movies = $this->movieCategoryRepository->getMoviesByCategory($id);
+
+        foreach ($movies as $movie) {
+            $movieInDb = $this->movieRepository->getMovieWithCategories($movie->id_movie);
+            
+            if (count($movieInDb->categories) <= 1) {
+                throw new \Exception('This Category Belongs To a Movie With One Category Only');
+            }
         }
     }
 }
