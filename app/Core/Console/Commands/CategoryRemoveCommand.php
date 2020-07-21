@@ -5,10 +5,10 @@ namespace App\Core\Console\Commands;
 use App\Services\Category;
 use Illuminate\Console\Command;
 
-class CategoryCreateCommand extends Command
+class CategoryRemoveCommand extends Command
 {
-    protected $signature = 'category:create {category}';
-    protected $description = 'Create a category';
+    protected $signature = 'category:remove {id}';
+    protected $description = 'Remove a category';
 
     public function __construct()
     {
@@ -18,10 +18,10 @@ class CategoryCreateCommand extends Command
     public function handle()
     {
         try {
-            $category = $this->argument('category');
-            dump(app(Category::class)->create($category));
+            $id = (int) $this->argument('id');
+            app(Category::class)->delete($id);
 
-            $this->info('Category Inserted in Database');
+            $this->info('Category Removed From Database');
         } catch (\Exception $e) {
             $this->error('Error: ' . $e->getMessage());
             $this->error('File: ' . $e->getFile());

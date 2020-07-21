@@ -35,4 +35,15 @@ class Category
         return $this->categoryRepository->create($data)
             ->toArray();
     }
+
+    public function delete(int $id)
+    {
+        $category = $this->categoryRepository->findFirst('id', $id);
+
+        if (empty($category)) {
+            throw new \Exception('Category Nonexistent');
+        }
+
+        $this->categoryRepository->delete($id);
+    }
 }
