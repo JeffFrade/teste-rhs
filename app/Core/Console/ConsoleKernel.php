@@ -16,6 +16,7 @@ class ConsoleKernel extends Kernel
         \App\Core\Console\Commands\CategorySearchCommand::class,
         \App\Core\Console\Commands\CategoryCreateCommand::class,
         \App\Core\Console\Commands\CategoryRemoveCommand::class,
+        \App\Core\Console\Commands\MovieCreateCommand::class,
     ];
 
     /**
