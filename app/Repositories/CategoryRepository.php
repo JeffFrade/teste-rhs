@@ -15,6 +15,7 @@ class CategoryRepository extends AbstractRepository
     public function search(string $category = '')
     {
         return $this->model->where('category', 'like', '%' . $category . '%')
+            ->orderBy('category')
             ->get()
             ->toArray();
     }
