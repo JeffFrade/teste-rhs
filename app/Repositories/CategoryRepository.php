@@ -19,4 +19,12 @@ class CategoryRepository extends AbstractRepository
             ->get()
             ->toArray();
     }
+
+    public function getCategory(string $category = '')
+    {
+        return $this->model->where('category', 'like', '%' . $category . '%')
+            ->with('movies')
+            ->get()
+            ->toArray();
+    }
 }

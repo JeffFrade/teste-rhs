@@ -25,6 +25,11 @@ class Movie
         return $this->movieRepository->searchTitle(StringHelper::removeAccents($title));
     }
 
+    public function searchCategory(string $category)
+    {
+        return $this->categoryRepository->getCategory(StringHelper::removeAccents($category));
+    }
+
     public function create(string $title, array $categories)
     {
         $this->validateCreateMovie($title);

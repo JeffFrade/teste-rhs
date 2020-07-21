@@ -14,4 +14,13 @@ class MovieCategory extends Model
         'id_movie',
         'id_category'
     ];
+
+    protected $with = [
+        'movies'
+    ];
+
+    public function movies()
+    {
+        return $this->belongsTo(Movie::class, 'id_movie', 'id');
+    }
 }
