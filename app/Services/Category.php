@@ -22,7 +22,7 @@ class Category
 
     public function search(string $category = '')
     {
-        return $this->categoryRepository->search($category);
+        return $this->categoryRepository->search(StringHelper::removeAccents($category));
     }
 
     public function create(string $category)
@@ -71,7 +71,7 @@ class Category
 
         foreach ($movies as $movie) {
             $movieInDb = $this->movieRepository->getMovieWithCategories($movie->id_movie);
-            
+
             if (count($movieInDb->categories) <= 1) {
                 throw new \Exception('This Category Belongs To a Movie With One Category Only');
             }
