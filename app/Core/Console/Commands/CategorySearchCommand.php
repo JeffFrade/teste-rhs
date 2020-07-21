@@ -2,6 +2,7 @@
 
 namespace App\Core\Console\Commands;
 
+use App\Services\Category;
 use Illuminate\Console\Command;
 
 class CategorySearchCommand extends Command
@@ -17,9 +18,14 @@ class CategorySearchCommand extends Command
     public function handle()
     {
         try {
+            $this->info('Categories in Database:');
 
+            $category = $this->argument('category') ?? '';
+            dump(app(Category::class)->search($category));
         } catch (\Exception $e) {
-            $this->error($e->getMessage());
+            $this->error('Error: ' . $e->getMessage());
+            $this->error('File: ' . $e->getFile());
+            $this->error('Line: ' . $e->getLine());
         }
     }
 }
