@@ -7,6 +7,6 @@ use Faker\Generator as Faker;
 
 $factory->define(Category::class, function (Faker $faker) {
     return [
-        'category' => $faker->firstName
+        'category' => \App\Helpers\StringHelper::removeAccents($faker->firstName)
     ];
 });
